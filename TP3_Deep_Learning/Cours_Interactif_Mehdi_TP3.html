@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>Cours Interactif TP3 — Mehdi</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;500;700;900&display=swap');
+        body { font-family: 'Outfit', sans-serif; background-color: #0b1120; color: #f8fafc; margin: 0; padding: 40px 20px; line-height: 1.6; }
+        .container { max-width: 900px; margin: 0 auto; }
+        .header { text-align: center; margin-bottom: 40px; padding: 40px; background: linear-gradient(135deg, #1e40af, #7e22ce); border-radius: 20px; border: 2px solid #a855f7; box-shadow: 0 10px 30px rgba(168, 85, 247, 0.2); }
+        .header h1 { margin: 0; font-size: 3em; font-weight: 900; }
+        .header p { font-size: 1.3em; margin-top: 10px; color: #e9d5ff; }
+        .card { background: #1e293b; padding: 35px; border-radius: 16px; margin-bottom: 40px; border: 1px solid #334155; }
+        h2 { color: #a855f7; font-size: 2em; margin-top: 0; border-bottom: 2px dashed #475569; padding-bottom: 15px; }
+        .teacher-note { background: #334155; border-left: 5px solid #fbbf24; padding: 20px 25px; font-family: 'Comic Sans MS', cursive, sans-serif; color: #fde68a; font-size: 1.15em; margin: 25px 0; border-radius: 0 10px 10px 0; transform: rotate(0.5deg); box-shadow: 5px 5px 15px rgba(0,0,0,0.3); }
+        .stat-table { width: 100%; border-collapse: collapse; margin: 20px 0; text-align: center; font-size: 1.15em; }
+        .stat-table th { background: #0f172a; padding: 15px; color: #cbd5e1; border: 1px solid #334155; }
+        .stat-table td { background: #1e293b; padding: 15px; border: 1px solid #334155; }
+        .highlight-danger { border: 4px solid #ef4444 !important; background-color: #7f1d1d !important; animation: pulse-red 2s infinite; font-weight: 900; }
+        .highlight-success { border: 4px solid #22c55e !important; background-color: #14532d !important; animation: pulse-green 2s infinite; font-weight: 900; }
+        .highlight-info { border: 4px solid #3b82f6 !important; background-color: #1e3a8a !important; animation: pulse-blue 2s infinite; font-weight: 900; }
+        @keyframes pulse-red { 0% { box-shadow: 0 0 0 0 rgba(239,68,68,0.7); } 70% { box-shadow: 0 0 0 15px rgba(239,68,68,0); } 100% { box-shadow: 0 0 0 0 rgba(239,68,68,0); } }
+        @keyframes pulse-green { 0% { box-shadow: 0 0 0 0 rgba(34,197,94,0.7); } 70% { box-shadow: 0 0 0 15px rgba(34,197,94,0); } 100% { box-shadow: 0 0 0 0 rgba(34,197,94,0); } }
+        @keyframes pulse-blue { 0% { box-shadow: 0 0 0 0 rgba(59,130,246,0.7); } 70% { box-shadow: 0 0 0 15px rgba(59,130,246,0); } 100% { box-shadow: 0 0 0 0 rgba(59,130,246,0); } }
+        .img-wrapper { position: relative; display: block; width: 100%; max-width: 700px; margin: 30px auto; text-align: center; }
+        .img-wrapper img { width: 100%; border-radius: 12px; background: #fff; box-shadow: 0 10px 25px rgba(0,0,0,0.5); }
+        .comparison-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 20px; margin-top: 20px; }
+        .comp-card { background: #0f172a; padding: 20px; border-radius: 12px; border: 1px solid #334155; text-align: center; }
+        .comp-card h3 { margin-top: 0; color: #a855f7; }
+        .comp-value { font-size: 2em; font-weight: 900; }
+        .label-badge { display: inline-block; padding: 4px 10px; border-radius: 20px; font-size: 0.8em; font-weight: bold; margin: 2px; background: #334155; color: #f8fafc; }
+    </style>
+</head>
+<body>
+<div class="container">
+
+    <div class="header">
+        <h1>Salut Mehdi ! 👋</h1>
+        <p>Prêt pour le grand saut dans le <strong>Deep Learning</strong> ? On va décrypter ton TP3 sur la reconnaissance d'articles Zalando !</p>
+    </div>
+
+    <div class="card">
+        <h2>1. Ton nouveau terrain de jeu : Fashion-MNIST 👕</h2>
+        <p>Fini les fleurs, on passe à la mode ! Tu travailles sur 70 000 images de vêtements (28x28 pixels).</p>
+        <div class="img-wrapper"><img src="outputs/catalogue_samples.png" alt="Catalogue Zalando"></div>
+        <div class="teacher-note">🧐 <strong>Le défi :</strong> Contrairement aux chiffres (MNIST classique), un pull et un t-shirt se ressemblent énormément pour une machine. Il faut des modèles capables de saisir des nuances de texture et de forme !</div>
+    </div>
+
+    <div class="card">
+        <h2>2. La Guerre des Architectures ⚔️</h2>
+        <p>Tu as opposé trois approches pour voir laquelle est la plus intelligente :</p>
+        <div class="comparison-grid">
+            <div class="comp-card">
+                <h3>Random Forest</h3>
+                <p>Le "Vieux Sage"</p>
+                <div class="comp-value">~87%</div>
+                <p>Lent et limité sur l'image.</p>
+            </div>
+            <div class="comp-card" style="border-color: #3b82f6;">
+                <h3>MLP (Dense)</h3>
+                <p>Le "Réseau Simple"</p>
+                <div class="comp-value" style="color: #3b82f6;">~88%</div>
+                <p>Un peu mieux, mais s'emmêle les pinceaux.</p>
+            </div>
+            <div class="comp-card" style="border-color: #22c55e;">
+                <h3>CNN</h3>
+                <p>Le "Champion"</p>
+                <div class="comp-value" style="color: #22c55e;">~91%</div>
+                <p>C'est lui le boss de la vision ! 🏆</p>
+            </div>
+        </div>
+        <div class="teacher-note">🚀 <strong>Pourquoi le CNN gagne ?</strong> Parce qu'il regarde l'image par "blocs" (convolution) au lieu de regarder chaque pixel isolément. Il comprend la notion de "manche", de "col" ou de "semelle" !</div>
+    </div>
+
+    <div class="card">
+        <h2>3. Visualiser le cerveau de l'IA 🧠</h2>
+        <p>Regarde ce que ton CNN "voit" quand il regarde une basket (Sneaker) :</p>
+        <div class="img-wrapper"><img src="outputs/activations_conv.png" alt="Activations CNN"></div>
+        <div class="teacher-note">💡 <strong>Incroyable, non ?</strong> Chaque filtre se spécialise. Un filtre détecte les bords verticaux, un autre les textures, un autre les ombres. C'est comme ça qu'il arrive à une telle précision !</div>
+    </div>
+
+    <div class="card">
+        <h2>4. L'Analyse des Échecs (Qualité) ❌</h2>
+        <p>Même le champion fait des erreurs. Regarde où il s'est trompé :</p>
+        <div class="img-wrapper"><img src="outputs/erreurs_cnn.png" alt="Erreurs CNN"></div>
+        <div class="teacher-note">🕵️‍♂️ <strong>L'oeil de l'expert :</strong> La plupart des erreurs viennent de la confusion entre <code>Pull</code>, <code>Manteau</code> et <code>Chemise</code>. En noir et blanc (28x28), c'est parfois difficile même pour un humain de faire la différence ! Ton modèle est donc très proche de la limite humaine.</div>
+    </div>
+
+    <div class="card">
+        <h2>5. Diagnostic : Overfitting ? 📈</h2>
+        <div class="img-wrapper"><img src="outputs/learning_curves.png" alt="Courbes d'apprentissage"></div>
+        <div class="teacher-note">📉 <strong>La bonne nouvelle :</strong> Tes courbes de Train et de Validation restent proches. Ça veut dire que ton modèle <strong>GÉNÉRALISE</strong> bien. Il n'a pas juste appris le catalogue par cœur, il a vraiment compris ce qu'est un vêtement !</div>
+    </div>
+
+    <div style="text-align:center; padding: 30px; font-size: 1.2em; color: #94a3b8; border-top: 1px solid #334155; margin-top: 30px;">
+        Félicitations Mehdi ! Tu as dompté les réseaux de neurones. <br><strong style="color: #a855f7;">Le Deep Learning et les CNN n'ont plus de secret pour toi ! 🚀</strong>
+    </div>
+
+</div>
+</body>
+</html>
