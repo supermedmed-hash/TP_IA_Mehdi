@@ -284,13 +284,16 @@ def main():
     sys.stdout.write(">> filtres_conv.png sauvegarde.\n")
 
     # 9b — Ce que « voit » le CNN sur un article (Sneaker)
-    activation_model = keras.Model(
-        inputs=model_cnn.input,
-        outputs=model_cnn.layers[0].output
-    )
-
     sample_idx = np.where(y_test == 7)[0][0]
     sample = X_test_cnn[sample_idx:sample_idx + 1]
+    
+    # Keras 3 : le modèle doit être appelé sur une donnée pour définir ses inputs/outputs
+    _ = model_cnn(sample) 
+
+    activation_model = keras.Model(
+        inputs=model_cnn.inputs,
+        outputs=model_cnn.layers[0].output
+    )
     activations = activation_model.predict(sample, verbose=0)
     sys.stdout.write(f"Activations : {activations.shape}\n")
 
