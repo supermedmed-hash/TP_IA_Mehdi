@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>Cours Interactif TP2 — Mehdi</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;500;700;900&display=swap');
+        body { font-family: 'Outfit', sans-serif; background-color: #0b1120; color: #f8fafc; margin: 0; padding: 40px 20px; line-height: 1.6; }
+        .container { max-width: 900px; margin: 0 auto; }
+        .header { text-align: center; margin-bottom: 40px; padding: 40px; background: linear-gradient(135deg, #7c3aed, #db2777); border-radius: 20px; border: 2px solid #e879f9; box-shadow: 0 10px 30px rgba(232, 121, 249, 0.2); }
+        .header h1 { margin: 0; font-size: 3em; font-weight: 900; }
+        .header p { font-size: 1.3em; margin-top: 10px; color: #fce7f3; }
+        .card { background: #1e293b; padding: 35px; border-radius: 16px; margin-bottom: 40px; border: 1px solid #334155; }
+        h2 { color: #e879f9; font-size: 2em; margin-top: 0; border-bottom: 2px dashed #475569; padding-bottom: 15px; }
+        .teacher-note { background: #334155; border-left: 5px solid #fbbf24; padding: 20px 25px; font-family: 'Comic Sans MS', cursive, sans-serif; color: #fde68a; font-size: 1.15em; margin: 25px 0; border-radius: 0 10px 10px 0; transform: rotate(-0.5deg); box-shadow: 5px 5px 15px rgba(0,0,0,0.3); }
+        .stat-table { width: 100%; border-collapse: collapse; margin: 20px 0; text-align: center; font-size: 1.15em; }
+        .stat-table th { background: #0f172a; padding: 15px; color: #cbd5e1; border: 1px solid #334155; }
+        .stat-table td { background: #1e293b; padding: 15px; border: 1px solid #334155; }
+        .highlight-danger { border: 4px solid #ef4444 !important; background-color: #7f1d1d !important; animation: pulse-red 2s infinite; font-weight: 900; }
+        .highlight-success { border: 4px solid #22c55e !important; background-color: #14532d !important; animation: pulse-green 2s infinite; font-weight: 900; }
+        .highlight-warn { border: 4px solid #eab308 !important; background-color: #713f12 !important; animation: pulse-yellow 2s infinite; font-weight: 900; }
+        @keyframes pulse-red { 0% { box-shadow: 0 0 0 0 rgba(239,68,68,0.7); } 70% { box-shadow: 0 0 0 15px rgba(239,68,68,0); } 100% { box-shadow: 0 0 0 0 rgba(239,68,68,0); } }
+        @keyframes pulse-green { 0% { box-shadow: 0 0 0 0 rgba(34,197,94,0.7); } 70% { box-shadow: 0 0 0 15px rgba(34,197,94,0); } 100% { box-shadow: 0 0 0 0 rgba(34,197,94,0); } }
+        @keyframes pulse-yellow { 0% { box-shadow: 0 0 0 0 rgba(234,179,8,0.8); } 70% { box-shadow: 0 0 0 20px rgba(234,179,8,0); } 100% { box-shadow: 0 0 0 0 rgba(234,179,8,0); } }
+        .img-wrapper { position: relative; display: block; width: 100%; max-width: 700px; margin: 30px auto; }
+        .img-wrapper img { width: 100%; border-radius: 12px; background: white; box-shadow: 0 10px 25px rgba(0,0,0,0.5); }
+        code { background: #0f172a; padding: 3px 6px; border-radius: 6px; color: #fbbf24; font-family: monospace; border: 1px solid #334155; }
+    </style>
+</head>
+<body>
+<div class="container">
+
+    <div class="header">
+        <h1>Salut Mehdi ! 👋</h1>
+        <p>Ce document t'explique ton TP2 (Churn) de manière super simple. On va regarder ensemble tes résultats en pointant ce qui compte !</p>
+    </div>
+
+    <div class="card">
+        <h2>1. C'est quoi le "Churn" ? 🤔</h2>
+        <p>Imagine : tu es le patron d'Orange ou SFR. Chaque mois, des clients <strong>résilient leur abonnement</strong> pour aller chez un concurrent. Ça s'appelle le <strong>Churn</strong>.</p>
+        <p>Le problème c'est que ça coûte <strong>5 à 7 fois plus cher</strong> d'aller chercher un nouveau client que de garder un client existant. Donc l'idée c'est : <em>"Et si mon algorithme pouvait me prévenir AVANT qu'un client parte, pour que je lui envoie une offre de fidélisation ?"</em></p>
+        <div class="teacher-note">💡 C'est exactement ce que font les vrais opérateurs ! Quand tu reçois un SMS "Offre spéciale -30% sur votre forfait"... c'est probablement parce qu'un algo t'a identifié comme "à risque de départ" !</div>
+    </div>
+
+    <div class="card">
+        <h2>2. Tes données : 7 000 vrais clients IBM 📊</h2>
+        <p>Contrairement au TP1 (les 150 fleurs d'Iris), ici on bosse sur des <strong>données réelles</strong> d'un opérateur télécom.</p>
+        <table class="stat-table">
+            <tr><th>Info</th><th>Valeur</th></tr>
+            <tr><td>Nombre de clients</td><td><strong>7 032</strong> (après nettoyage)</td></tr>
+            <tr><td>Nombre de variables</td><td><strong>30 features</strong> (après encodage)</td></tr>
+            <tr><td>Clients restés</td><td class="highlight-success">~74%</td></tr>
+            <tr><td>Clients partis (Churn)</td><td class="highlight-danger">~26%</td></tr>
+        </table>
+        <div class="teacher-note">⚠️ <strong>Regarde bien les cases clignotantes :</strong> 74% vs 26%, c'est ce qu'on appelle un dataset <strong>DÉSÉQUILIBRÉ</strong>. C'est la grosse différence avec ton TP1 (50/50/50). Si l'algo dit toujours "il reste", il aurait 74% d'accuracy en ne comprenant rien du tout ! C'est pour ça qu'on utilise le <strong>F1-macro</strong> au lieu de l'Accuracy seule.</div>
+    </div>
+
+    <div class="card">
+        <h2>3. Le combat des 3 modèles 🥊</h2>
+        <table class="stat-table">
+            <tr><th>Modèle</th><th>Accuracy</th><th>F1-macro</th></tr>
+            <tr><td>Régression Logistique</td><td>80.4%</td><td class="highlight-success">0.739 🏆</td></tr>
+            <tr><td>Random Forest</td><td>78.8%</td><td>0.712</td></tr>
+            <tr><td>XGBoost</td><td>77.8%</td><td>0.709</td></tr>
+        </table>
+        <div class="img-wrapper"><img src="outputs/comparaison_modeles.png" alt="Comparaison"></div>
+        <div class="teacher-note">🤯 <strong>SURPRISE :</strong> Le modèle le plus SIMPLE (la Régression Logistique) a gagné ! Les modèles compliqués comme XGBoost brillent sur des données très complexes. Mais sur nos données plutôt linéaires, le modèle basique fait mieux. <strong>Retiens ça : plus complexe ≠ forcément meilleur !</strong></div>
+    </div>
+
+    <div class="card">
+        <h2>4. La Matrice de Confusion (les erreurs) 🎯</h2>
+        <div class="img-wrapper"><img src="outputs/confusion_matrix.png" alt="Matrice de confusion"></div>
+        <div class="teacher-note">
+            📖 <strong>Comment lire cette matrice :</strong><br>
+            • <strong>Haut-gauche (bleu foncé)</strong> = clients correctement prédits comme "restants". ✅<br>
+            • <strong>Bas-droite</strong> = clients correctement identifiés comme "partants". ✅ C'est ce qu'on optimise !<br>
+            • <strong>Bas-gauche (FAUX NÉGATIFS)</strong> = l'algo dit "il reste" mais il est parti. Coût maximal : perte de revenus !<br>
+            • <strong>Haut-droite (FAUX POSITIFS)</strong> = l'algo dit "il part" mais il serait resté. Moins grave : on lui envoie une promo inutilement.
+        </div>
+    </div>
+
+    <div class="card">
+        <h2>5. SHAP : Pourquoi les clients partent-ils ? 🔍</h2>
+        <div class="img-wrapper"><img src="outputs/shap_summary.png" alt="SHAP Summary"></div>
+        <div class="teacher-note">
+            🌟 <strong>Les 3 champions de la prédiction :</strong><br><br>
+            1️⃣ <strong>Contract (mensuel)</strong> : Un contrat sans engagement = liberté de partir à tout moment.<br>
+            2️⃣ <strong>Tenure</strong> (ancienneté) : Un client récent part plus facilement qu'un client fidèle depuis 5 ans.<br>
+            3️⃣ <strong>MonthlyCharges</strong> : Plus la facture est élevée, plus le client cherche moins cher ailleurs.<br><br>
+            Bonne nouvelle : ni le genre ni l'âge n'apparaissent dans le top → ton IA n'est pas discriminatoire ! 🎉
+        </div>
+    </div>
+
+    <div class="card">
+        <h2>6. L'AI Act : la loi européenne sur l'IA ⚖️</h2>
+        <table class="stat-table">
+            <tr><th>Niveau</th><th>Exemple</th><th>Ton cas ?</th></tr>
+            <tr><td>🚫 Inacceptable</td><td>Notation sociale (comme en Chine)</td><td>Non</td></tr>
+            <tr><td>🔴 Haut risque</td><td>Refus de crédit, recrutement IA</td><td>Non</td></tr>
+            <tr><td class="highlight-warn">🟡 Risque limité</td><td>Chatbots, profilage commercial</td><td class="highlight-warn">OUI !</td></tr>
+            <tr><td>🟢 Minimal</td><td>Filtre anti-spam, recommandation Netflix</td><td>Non</td></tr>
+        </table>
+        <div class="teacher-note">⚖️ <strong>En résumé :</strong> Ton système fait du "profilage commercial" (identifier des clients à risque pour leur envoyer des promos). C'est du risque LIMITÉ mais ça implique quand même :<br>
+        • Le client doit <strong>savoir</strong> qu'un algo l'a ciblé (transparence).<br>
+        • Il peut <strong>refuser</strong> le profilage automatisé (droit d'opposition, Art. 22 RGPD).<br>
+        • La <strong>CNIL</strong> surveille ces pratiques en France.
+        </div>
+    </div>
+
+    <div style="text-align:center; padding: 30px; font-size: 1.2em; color: #94a3b8; border-top: 1px solid #334155; margin-top: 30px;">
+        Tu as maintenant toutes les clés pour expliquer le TP2, Mehdi. <br><strong style="color: #e879f9;">Le Churn, le F1-macro, SHAP et l'AI Act n'ont plus de secrets pour toi ! 🚀</strong>
+    </div>
+
+</div>
+</body>
+</html>

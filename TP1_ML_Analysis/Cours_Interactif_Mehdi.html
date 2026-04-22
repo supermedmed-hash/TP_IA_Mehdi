@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>Cours Interactif TP1 — Mehdi</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;500;700;900&display=swap');
+        body { font-family: 'Outfit', sans-serif; background-color: #0b1120; color: #f8fafc; margin: 0; padding: 40px 20px; line-height: 1.6; }
+        .container { max-width: 900px; margin: 0 auto; }
+        .header { text-align: center; margin-bottom: 40px; padding: 40px; background: linear-gradient(135deg, #0f766e, #0369a1); border-radius: 20px; border: 2px solid #2dd4bf; box-shadow: 0 10px 30px rgba(45, 212, 191, 0.2); }
+        .header h1 { margin: 0; font-size: 3em; font-weight: 900; }
+        .header p { font-size: 1.3em; margin-top: 10px; color: #ccfbf1; }
+        .card { background: #1e293b; padding: 35px; border-radius: 16px; margin-bottom: 40px; border: 1px solid #334155; }
+        h2 { color: #38bdf8; font-size: 2em; margin-top: 0; border-bottom: 2px dashed #475569; padding-bottom: 15px; }
+        .teacher-note { background: #334155; border-left: 5px solid #fbbf24; padding: 20px 25px; font-family: 'Comic Sans MS', cursive, sans-serif; color: #fde68a; font-size: 1.2em; margin: 25px 0; border-radius: 0 10px 10px 0; transform: rotate(-1deg); box-shadow: 5px 5px 15px rgba(0,0,0,0.3); }
+        .stat-table { width: 100%; border-collapse: collapse; margin: 20px 0; text-align: center; font-size: 1.2em; }
+        .stat-table th { background: #0f172a; padding: 15px; color: #cbd5e1; border: 1px solid #334155; }
+        .stat-table td { background: #1e293b; padding: 15px; border: 1px solid #334155; }
+        .highlight-danger { border: 4px solid #ef4444 !important; background-color: #7f1d1d !important; animation: pulse-red 2s infinite; font-weight: 900; }
+        .highlight-success { border: 4px solid #22c55e !important; background-color: #14532d !important; animation: pulse-green 2s infinite; font-weight: 900; }
+        @keyframes pulse-red { 0% { box-shadow: 0 0 0 0 rgba(239,68,68,0.7); } 70% { box-shadow: 0 0 0 15px rgba(239,68,68,0); } 100% { box-shadow: 0 0 0 0 rgba(239,68,68,0); } }
+        @keyframes pulse-green { 0% { box-shadow: 0 0 0 0 rgba(34,197,94,0.7); } 70% { box-shadow: 0 0 0 15px rgba(34,197,94,0); } 100% { box-shadow: 0 0 0 0 rgba(34,197,94,0); } }
+        @keyframes pulse-yellow { 0% { box-shadow: 0 0 0 0 rgba(234,179,8,0.8); } 70% { box-shadow: 0 0 0 20px rgba(234,179,8,0); } 100% { box-shadow: 0 0 0 0 rgba(234,179,8,0); } }
+        .img-wrapper { position: relative; display: block; width: 100%; max-width: 700px; margin: 30px auto; }
+        .img-wrapper img { width: 100%; border-radius: 12px; background: white; box-shadow: 0 10px 25px rgba(0,0,0,0.5); }
+        .overlay-box { position: absolute; border-radius: 8px; pointer-events: none; }
+        .draw-red { border: 4px dashed #ef4444; background: rgba(239,68,68,0.15); animation: pulse-red 2s infinite; }
+        .draw-yellow { border: 5px solid #eab308; background: rgba(234,179,8,0.15); animation: pulse-yellow 2s infinite; }
+        .ov-overfitting { top: 25%; left: 35%; width: 55%; height: 60%; }
+        .ov-shap { top: 7%; left: 21%; width: 62%; height: 20%; }
+        .tooltip { position: absolute; background: #0f172a; color: white; padding: 5px 12px; border-radius: 8px; border: 2px solid inherit; font-size: 0.8em; font-weight: bold; transform: translateY(-130%); white-space: nowrap; }
+    </style>
+</head>
+<body>
+<div class="container">
+
+    <div class="header">
+        <h1>Salut Mehdi ! 👋</h1>
+        <p>Ce document est fait sur-mesure pour toi. On va décrypter ensemble tes résultats du TP1 en pointant directement ce qui compte !</p>
+    </div>
+
+    <div class="card">
+        <h2>1. Ton point de départ : Les Données</h2>
+        <p>En IA, ton modèle mange de la donnée pour apprendre. Ici, on lui a fait avaler 150 mensurations de fleurs d'Iris.</p>
+        <table class="stat-table">
+            <tr><th>Classe (Espèce)</th><th>Nombre d'échantillons</th></tr>
+            <tr><td>Setosa</td><td class="highlight-success">50</td></tr>
+            <tr><td>Versicolor</td><td class="highlight-success">50</td></tr>
+            <tr><td>Virginica</td><td class="highlight-success">50</td></tr>
+        </table>
+        <div class="teacher-note">🧐 <strong>Regarde les cases vertes clignotantes :</strong> 50 partout ! C'est un dataset "parfaitement équilibré". L'IA ne va pas favoriser une classe plus qu'une autre — elle apprendra de façon totalement juste !</div>
+    </div>
+
+    <div class="card">
+        <h2>2. L'Examen Final : La Matrice de Confusion</h2>
+        <p>Tu as gardé 30 fleurs "cachées" pour piéger ton modèle et vérifier s'il est fort. La matrice montre exactement où il se trompe !</p>
+        <table class="stat-table">
+            <tr><th></th><th>L'I.A dit : Setosa</th><th>L'I.A dit : Versicolor</th><th>L'I.A dit : Virginica</th></tr>
+            <tr><th>En réalité : Setosa</th><td class="highlight-success">10</td><td>0</td><td>0</td></tr>
+            <tr><th>En réalité : Versicolor</th><td>0</td><td class="highlight-success">9</td><td class="highlight-danger">1</td></tr>
+            <tr><th>En réalité : Virginica</th><td>0</td><td class="highlight-danger">1</td><td class="highlight-success">9</td></tr>
+        </table>
+        <div class="teacher-note">❌ <strong>Cases ROUGES :</strong> 2 fleurs confondues entre Versicolor et Virginica.<br>✅ <strong>Cases VERTES (diagonale) :</strong> toutes les bonnes réponses ! Accuracy = (10+9+9) ÷ 30 = <strong>93.3%</strong></div>
+    </div>
+
+    <div class="card">
+        <h2>3. Le pire piège en I.A : L'Overfitting</h2>
+        <div class="img-wrapper">
+            <img src="outputs/overfitting.png" alt="Graphique Overfitting">
+            <div class="overlay-box draw-red ov-overfitting">
+                <div class="tooltip" style="border-color:#ef4444;">⚠️ REGARDE ICI : L'ÉCART SE CRÉE !</div>
+            </div>
+        </div>
+        <div class="teacher-note">📉 <strong>Le cadre ROUGE clignotant :</strong> La ligne Bleue (entraînement) monte à 100%, mais la ligne Rouge (test = vraie vie) stagne. L'algo a appris son leçon bêtement "par cœur" sans comprendre la logique. <strong>C'est l'overfitting, Mehdi ! C'est ce qu'on doit éviter.</strong></div>
+    </div>
+
+    <div class="card">
+        <h2>4. SHAP : Lire dans les pensées de l'IA</h2>
+        <div class="img-wrapper">
+            <img src="outputs/shap_summary.png" alt="SHAP Plot">
+            <div class="overlay-box draw-yellow ov-shap">
+                <div class="tooltip" style="border-color:#eab308;color:#eab308;margin-top:-10px;">⭐ LA STAR : PETAL_LENGTH</div>
+            </div>
+        </div>
+        <div class="teacher-note">🌟 <strong>Zone encadrée en JAUNE :</strong> C'est <code>petal_length</code> (longueur du pétale). Sa barre est gigantesque ! À chaque décision, c'est cette variable qui pèse le plus lourd. C'est ton arme fatale pour expliquer le modèle à quelqu'un qui ne connaît pas l'IA.</div>
+    </div>
+
+    <div style="text-align:center; padding: 30px; font-size: 1.2em; color: #94a3b8; border-top: 1px solid #334155; margin-top: 30px;">
+        Tu as maintenant toutes les clés pour déchirer lors de la soutenance, Mehdi. <br><strong style="color: #38bdf8;">L'Intelligence Artificielle n'a plus de secret pour toi ! 🚀</strong>
+    </div>
+
+</div>
+</body>
+</html>
