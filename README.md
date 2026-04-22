@@ -26,6 +26,7 @@ Dans ce projet, j'ai notamment eu l'opportunité de :
 │   ├── explications_techniques.md  # Réponses détaillées aux questions du TP
 │   └── insights_debrief.md         # Synthèse de mes 3 insights majeurs (Performance, Overfitting, SHAP)
 ├── 📄 Livrable_Final_TP1.html      # Mon rapport HTML qui compile mes explications finales
+├── 📄 Cours_Interactif_Mehdi.html  # Cours explicatif interactif
 └── 📄 requirements.txt             # Dépendances requises par le projet
 ```
 
