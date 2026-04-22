@@ -22,7 +22,7 @@
         .img-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-top: 20px; }
         .img-card { background: #0f172a; padding: 15px; border-radius: 12px; text-align: center; border: 1px solid #334155; transition: transform 0.2s; }
         .img-card:hover { transform: translateY(-5px); border-color: #3b82f6; }
-        img { max-width: 100%; border-radius: 8px; box-shadow: 0 4px 6px rgba(0,0,0,0.2); background-color: white; }
+        img { max-width: 100%; border-radius: 8px; box-shadow: 0 4px 6px rgba(0,0,0,0.2); background-color: #fff; }
         .img-title { margin-top: 12px; font-weight: 500; color: #cbd5e1; font-size: 0.9em; }
         .slide-box { background: #0f172a; border: 2px solid #3b82f6; border-radius: 12px; padding: 25px; margin: 20px 0; }
         .slide-row { display: flex; justify-content: space-between; padding: 10px 0; border-bottom: 1px dashed #334155; gap: 20px; }
@@ -52,57 +52,25 @@
             <tr><td>Distribution</td><td>Dataset parfaitement équilibré (6 000 images par classe dans le train).</td></tr>
         </table>
         
+        <div class="img-card" style="margin: 20px 0;">
+            <img src="outputs/catalogue_samples.png" alt="Catalogue Samples">
+            <div class="img-title">Exemples du catalogue Zalando (1 par catégorie)</div>
+        </div>
+
         <div class="q-block">
             <div class="q">❓ Le catalogue est-il équilibré ? Quel impact sur l'entraînement ?</div>
-            <div class="r">Oui, il est parfaitement équilibré. L'impact est très positif : le modèle ne sera pas biaisé vers une classe majoritaire. On peut utiliser l'<strong>Accuracy</strong> comme métrique fiable, contrairement au TP2 (Churn) où il fallait utiliser le F1-score.</div>
-        </div>
-        <div class="q-block">
-            <div class="q">❓ Un pull et une chemise se ressemblent visuellement : cela pose-t-il un risque ?</div>
-            <div class="r">Oui, c'est le principal risque. À si basse résolution (28x28) et sans couleur, la texture est perdue. Le modèle va se baser sur la silhouette qui est quasi-identique pour ces deux catégories.</div>
-        </div>
-        <div class="q-block">
-            <div class="q">❓ Pourquoi normalise-t-on les pixels entre 0 et 1 ?</div>
-            <div class="r">Pour la stabilité de l'entraînement. Les algorithmes d'optimisation (comme Adam) basés sur le gradient divergent ou convergent très lentement si les valeurs d'entrée sont grandes (0-255). Ramener à [0, 1] permet un apprentissage rapide et stable.</div>
-        </div>
-    </div>
-
-    <!-- ÉTAPE 3 & 4 -->
-    <div class="card">
-        <h2>🤖 2. Baseline ML et Réseau Dense (MLP)</h2>
-        <div class="q-block">
-            <div class="q">❓ Le Random Forest traite chaque pixel indépendamment. Comprend-il la notion de contour ?</div>
-            <div class="r">Non. En aplatissant l'image (784 features indépendantes), le Random Forest perd la structure spatiale. Il ne sait pas qu'un pixel noir à côté d'un autre forme une ligne. Il atteint pourtant ~87% d'accuracy, ce qui montre que certains pixels spécifiques (ex: les bords extérieurs) suffisent pour éliminer certaines catégories.</div>
-        </div>
-        <div class="q-block">
-            <div class="q">❓ Combien de paramètres pour le réseau Dense ? (Comparaison)</div>
-            <div class="r">Le réseau Dense a environ 109 000 paramètres (784×128 + 128×64 + 64×10 + biais). Il aplatit lui aussi l'image. Il fait légèrement mieux que le Random Forest (~89%), mais il est fondamentalement limité car il ne "voit" pas l'image en 2D.</div>
-        </div>
-        <div class="q-block">
-            <div class="q">❓ Que fait le softmax sur la dernière couche ?</div>
-            <div class="r">Le <code>softmax</code> convertit les scores bruts des 10 neurones de sortie en une distribution de probabilités (valeurs entre 0 et 1, somme = 1). Le modèle peut ainsi dire : "90% de certitude que c'est une Robe, 10% que c'est un T-shirt".</div>
-        </div>
-    </div>
-
-    <!-- ÉTAPE 5 -->
-    <div class="card">
-        <h2>🧠 3. Réseau Convolutif (CNN)</h2>
-        <div class="q-block">
-            <div class="q">❓ Pourquoi la sortie de Conv2D(32, 3x3) sur du 28x28 est-elle 26x26 ?</div>
-            <div class="r">Parce que le filtre de 3x3 pixels ne peut pas déborder de l'image. Il glisse mais perd 1 pixel de chaque côté (28 - 3 + 1 = 26). C'est ce qu'on appelle une convolution "valid".</div>
-        </div>
-        <div class="q-block">
-            <div class="q">❓ Quel est l'intérêt du MaxPooling2D ?</div>
-            <div class="r">Il réduit la résolution spatiale (ex: 26x26 → 13x13) en ne gardant que l'activation maximale par bloc de 2x2. Cela réduit drastiquement le nombre de paramètres, diminue les temps de calcul et apporte une "invariance spatiale" (si une chaussure est un peu décalée, elle sera quand même détectée).</div>
-        </div>
-        <div class="q-block">
-            <div class="q">❓ Pourquoi Dropout(0.3) réduit-il l'overfitting ?</div>
-            <div class="r">En "éteignant" aléatoirement 30% des neurones à chaque passage, il empêche le réseau de trop dépendre d'une poignée de neurones spécifiques. Le réseau est forcé de répartir son apprentissage sur l'ensemble des neurones, ce qui améliore la généralisation sur des images jamais vues.</div>
+            <div class="r">Oui, il est parfaitement équilibré. L'impact est très positif : le modèle ne sera pas biaisé vers une classe majoritaire. On peut utiliser l'<strong>Accuracy</strong> comme métrique fiable.</div>
         </div>
     </div>
 
     <!-- ÉTAPE 6 & 7 -->
     <div class="card">
-        <h2>📊 4. Évaluation et Diagnostic</h2>
+        <h2>📊 2. Évaluation et Courbes d'apprentissage</h2>
+        <div class="img-card" style="margin: 20px 0;">
+            <img src="outputs/learning_curves.png" alt="Courbes d'apprentissage">
+            <div class="img-title">Diagnostic d'overfitting : MLP vs CNN</div>
+        </div>
+
         <table>
             <tr><th>Modèle</th><th>Accuracy</th><th>Taux d'erreur</th></tr>
             <tr><td>Random Forest (Baseline)</td><td>~ 87.5 %</td><td>~ 12.5 %</td></tr>
@@ -111,56 +79,71 @@
         </table>
         
         <div class="q-block">
-            <div class="q">❓ Quel modèle atteint l'objectif business (taux d'erreur < 5 %) ?</div>
-            <div class="r">Aucun des modèles n'atteint l'objectif des 5% d'erreur avec cette configuration. Le CNN est le meilleur avec ~9% d'erreur. Pour descendre sous 5%, il faudrait des images HD en couleur, et probablement du Transfer Learning (ex: ResNet).</div>
-        </div>
-        <div class="q-block">
             <div class="q">❓ L'écart train/validation sur les courbes d'apprentissage indique-t-il de l'overfitting ?</div>
-            <div class="r">Sur le réseau Dense, on observe un décrochage net après ~8 époques : le train monte vers 95% mais la validation stagne à 88% → c'est de l'overfitting. Sur le CNN, grâce au Dropout, l'écart est beaucoup plus réduit et les deux courbes progressent de concert.</div>
-        </div>
-        <div class="q-block">
-            <div class="q">❓ Quelles catégories sont le plus souvent confondues ?</div>
-            <div class="r">La matrice de confusion révèle que les pires confusions sont : Chemise vs T-shirt/top, Chemise vs Pull, et Manteau vs Pull. C'est très cohérent, car à 28x28 pixels en noir et blanc, un pull et une chemise ont exactement la même silhouette (col, manches longues).</div>
+            <div class="r">Sur le réseau Dense, on observe un décrochage après ~8 époques. Sur le CNN, grâce au <strong>Dropout</strong>, l'écart est beaucoup plus réduit, montrant une meilleure généralisation.</div>
         </div>
     </div>
 
-    <!-- ÉTAPE 8 & 9 -->
+    <!-- MATRICE DE CONFUSION -->
     <div class="card">
-        <h2>🔍 5. Analyse des erreurs et Interprétabilité</h2>
-        <div class="q-block">
-            <div class="q">❓ Le modèle fait-il des erreurs avec une haute confiance (> 90 %) ? Risque ?</div>
-            <div class="r">Oui. L'analyse des erreurs montre que le modèle peut classer une Chemise en Pull avec 98% de confiance. En production, c'est très risqué car un tel taux de confiance inciterait à automatiser la publication sans vérification humaine. Il faut calibrer le modèle.</div>
+        <h2>🎯 3. Analyse détaillée (CNN)</h2>
+        <div class="img-grid">
+            <div class="img-card">
+                <img src="outputs/confusion_matrix_cnn.png" alt="Matrice de confusion CNN">
+                <div class="img-title">Matrice de confusion — CNN</div>
+            </div>
+            <div class="img-card">
+                <img src="outputs/erreurs_cnn.png" alt="Analyse des erreurs">
+                <div class="img-title">Exemples d'articles mal classifiés</div>
+            </div>
         </div>
+
         <div class="q-block">
-            <div class="q">❓ Les filtres appris par le CNN détectent-ils des zones uniformes ou des contours ?</div>
-            <div class="r">Les visualisations (filtres de la 1re couche) montrent qu'ils réagissent aux changements d'intensité. Certains s'activent sur les bords verticaux, d'autres sur les bords horizontaux, d'autres sur les textures diagonales. C'est typique d'un CNN bien entraîné (qui réinvente des filtres de Gabor).</div>
+            <div class="q">❓ Quelles catégories sont le plus souvent confondues ?</div>
+            <div class="r">Les confusions majeures sont <strong>Chemise vs T-shirt</strong> et <strong>Pull vs Manteau</strong>. C'est logique : à 28x28 pixels, ces articles ont des silhouettes très similaires.</div>
         </div>
+    </div>
+
+    <!-- INTERPRÉTABILITÉ -->
+    <div class="card">
+        <h2>👁️ 4. Visualisation (Interprétabilité)</h2>
+        <div class="img-grid">
+            <div class="img-card">
+                <img src="outputs/filtres_conv.png" alt="Filtres Conv">
+                <div class="img-title">Filtres appris (1re couche)</div>
+            </div>
+            <div class="img-card">
+                <img src="outputs/activations_conv.png" alt="Activations Conv">
+                <div class="img-title">Feature maps (Activations sur un Sneaker)</div>
+            </div>
+        </div>
+
         <div class="q-block">
-            <div class="q">❓ Comment prouver au comité éthique que le modèle ne discrimine pas sur la couleur du fond ?</div>
-            <div class="r">Les feature maps montrent bien que l'activation se concentre sur le vêtement (la silhouette, les motifs) et que le fond noir reste inactif (valeurs proches de 0). En complément, on pourrait introduire des images avec différents fonds lors du test pour vérifier la robustesse (data augmentation).</div>
+            <div class="q">❓ Que « voit » le CNN ?</div>
+            <div class="r">Le CNN détecte des contours et des textures. Les feature maps montrent que certains filtres s'activent sur la silhouette de la chaussure, tandis que d'autres isolent les lacets ou la semelle.</div>
         </div>
     </div>
 
     <!-- SYNTHÈSE -->
     <div class="card">
-        <h2>🎯 Recommandations au Comité Technique (3 Insights)</h2>
+        <h2>🎯 Recommandations au Comité Technique</h2>
         <div class="slide-box">
             <div class="slide-row">
                 <div style="width: 100%;">
-                    <strong style="color: #60a5fa; display:block; margin-bottom: 5px;">Insight 1 — Deep Learning vs ML Classique : L'avantage spatial</strong>
-                    <span style="color: #cbd5e1;">Le CNN surpasse le Random Forest (91% vs 87%) car les convolutions exploitent la géométrie 2D de l'image, contrairement au ML classique qui traite les pixels en vrac. Sur 45M d'articles, ce gain justifie largement le coût du calcul GPU.</span>
+                    <strong style="color: #60a5fa; display:block; margin-bottom: 5px;">Insight 1 — Deep Learning vs ML Classique</strong>
+                    <span style="color: #cbd5e1;">Le CNN surpasse le Random Forest (91% vs 87%) car il exploite la structure spatiale de l'image.</span>
                 </div>
             </div>
             <div class="slide-row">
                 <div style="width: 100%;">
-                    <strong style="color: #60a5fa; display:block; margin-bottom: 5px;">Insight 2 — CNN vs Dense : Efficacité paramétrique</strong>
-                    <span style="color: #cbd5e1;">Le CNN (91%) est meilleur que le réseau dense (88%) tout en ayant beaucoup moins de paramètres pour traiter l'image (grâce au partage de poids des filtres). Le Flatten du dense détruit l'information spatiale. Pour de l'image, le CNN est impératif.</span>
+                    <strong style="color: #60a5fa; display:block; margin-bottom: 5px;">Insight 2 — Dense vs CNN</strong>
+                    <span style="color: #cbd5e1;">Le CNN est plus efficace : il utilise moins de paramètres pour une meilleure précision grâce au partage des filtres.</span>
                 </div>
             </div>
             <div class="slide-row" style="border-bottom: none;">
                 <div style="width: 100%;">
-                    <strong style="color: #60a5fa; display:block; margin-bottom: 5px;">Insight 3 — Déploiement : Objectif non atteint et sécurité</strong>
-                    <span style="color: #cbd5e1;">Le modèle est actuellement bloqué à ~9% d'erreur, n'atteignant pas la cible business de 5%. Les erreurs sont dues à la basse résolution (28x28). En production : passer en 224x224 couleur, utiliser du Transfer Learning, et instaurer un seuil (validation humaine si P < 85%).</span>
+                    <strong style="color: #60a5fa; display:block; margin-bottom: 5px;">Insight 3 — Fiabilité en production</strong>
+                    <span style="color: #cbd5e1;">L'objectif de 5% d'erreur n'est pas encore atteint (9% actuel). Recommandation : Passer en HD et couleur.</span>
                 </div>
             </div>
         </div>

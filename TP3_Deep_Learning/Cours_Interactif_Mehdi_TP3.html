@@ -2,98 +2,297 @@
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
-    <title>Cours Interactif TP3 — Mehdi</title>
+    <title>Cours Ultra-Détaillé TP3 — Deep Learning & Zalando</title>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;500;700;900&display=swap');
-        body { font-family: 'Outfit', sans-serif; background-color: #0b1120; color: #f8fafc; margin: 0; padding: 40px 20px; line-height: 1.6; }
-        .container { max-width: 900px; margin: 0 auto; }
-        .header { text-align: center; margin-bottom: 40px; padding: 40px; background: linear-gradient(135deg, #1e40af, #7e22ce); border-radius: 20px; border: 2px solid #a855f7; box-shadow: 0 10px 30px rgba(168, 85, 247, 0.2); }
-        .header h1 { margin: 0; font-size: 3em; font-weight: 900; }
-        .header p { font-size: 1.3em; margin-top: 10px; color: #e9d5ff; }
-        .card { background: #1e293b; padding: 35px; border-radius: 16px; margin-bottom: 40px; border: 1px solid #334155; }
-        h2 { color: #a855f7; font-size: 2em; margin-top: 0; border-bottom: 2px dashed #475569; padding-bottom: 15px; }
-        .teacher-note { background: #334155; border-left: 5px solid #fbbf24; padding: 20px 25px; font-family: 'Comic Sans MS', cursive, sans-serif; color: #fde68a; font-size: 1.15em; margin: 25px 0; border-radius: 0 10px 10px 0; transform: rotate(0.5deg); box-shadow: 5px 5px 15px rgba(0,0,0,0.3); }
-        .stat-table { width: 100%; border-collapse: collapse; margin: 20px 0; text-align: center; font-size: 1.15em; }
-        .stat-table th { background: #0f172a; padding: 15px; color: #cbd5e1; border: 1px solid #334155; }
-        .stat-table td { background: #1e293b; padding: 15px; border: 1px solid #334155; }
-        .highlight-danger { border: 4px solid #ef4444 !important; background-color: #7f1d1d !important; animation: pulse-red 2s infinite; font-weight: 900; }
-        .highlight-success { border: 4px solid #22c55e !important; background-color: #14532d !important; animation: pulse-green 2s infinite; font-weight: 900; }
-        .highlight-info { border: 4px solid #3b82f6 !important; background-color: #1e3a8a !important; animation: pulse-blue 2s infinite; font-weight: 900; }
-        @keyframes pulse-red { 0% { box-shadow: 0 0 0 0 rgba(239,68,68,0.7); } 70% { box-shadow: 0 0 0 15px rgba(239,68,68,0); } 100% { box-shadow: 0 0 0 0 rgba(239,68,68,0); } }
-        @keyframes pulse-green { 0% { box-shadow: 0 0 0 0 rgba(34,197,94,0.7); } 70% { box-shadow: 0 0 0 15px rgba(34,197,94,0); } 100% { box-shadow: 0 0 0 0 rgba(34,197,94,0); } }
-        @keyframes pulse-blue { 0% { box-shadow: 0 0 0 0 rgba(59,130,246,0.7); } 70% { box-shadow: 0 0 0 15px rgba(59,130,246,0); } 100% { box-shadow: 0 0 0 0 rgba(59,130,246,0); } }
-        .img-wrapper { position: relative; display: block; width: 100%; max-width: 700px; margin: 30px auto; text-align: center; }
-        .img-wrapper img { width: 100%; border-radius: 12px; background: #fff; box-shadow: 0 10px 25px rgba(0,0,0,0.5); }
-        .comparison-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 20px; margin-top: 20px; }
-        .comp-card { background: #0f172a; padding: 20px; border-radius: 12px; border: 1px solid #334155; text-align: center; }
-        .comp-card h3 { margin-top: 0; color: #a855f7; }
-        .comp-value { font-size: 2em; font-weight: 900; }
-        .label-badge { display: inline-block; padding: 4px 10px; border-radius: 20px; font-size: 0.8em; font-weight: bold; margin: 2px; background: #334155; color: #f8fafc; }
+        @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700;900&display=swap');
+        
+        :root {
+            --primary: #3b82f6;
+            --secondary: #1d4ed8;
+            --accent: #f59e0b;
+            --bg: #0b1120;
+            --card-bg: #1e293b;
+            --text: #f8fafc;
+            --text-muted: #94a3b8;
+        }
+
+        body { 
+            font-family: 'Outfit', sans-serif; 
+            background-color: var(--bg); 
+            color: var(--text); 
+            margin: 0; 
+            padding: 40px 20px; 
+            line-height: 1.7; 
+        }
+
+        .container { max-width: 1000px; margin: 0 auto; }
+
+        .header { 
+            text-align: center; 
+            margin-bottom: 60px; 
+            padding: 60px 40px; 
+            background: linear-gradient(145deg, #1e40af, #3b82f6); 
+            border-radius: 24px; 
+            border: 1px solid rgba(255,255,255,0.1);
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+        }
+
+        .header h1 { margin: 0; font-size: 3.5em; font-weight: 900; letter-spacing: -1px; }
+        .header p { font-size: 1.4em; margin-top: 15px; color: #dbeafe; font-weight: 300; }
+
+        .section-nav {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-bottom: 40px;
+            flex-wrap: wrap;
+        }
+        .nav-item {
+            padding: 8px 16px;
+            background: var(--card-bg);
+            border-radius: 50px;
+            font-size: 0.9em;
+            color: var(--text-muted);
+            border: 1px solid #334155;
+            text-decoration: none;
+            transition: 0.3s;
+        }
+        .nav-item:hover { background: var(--primary); color: white; border-color: var(--primary); }
+
+        .card { 
+            background: var(--card-bg); 
+            padding: 45px; 
+            border-radius: 24px; 
+            margin-bottom: 50px; 
+            border: 1px solid #334155;
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+        }
+
+        h2 { 
+            color: var(--primary); 
+            font-size: 2.2em; 
+            margin-top: 0; 
+            margin-bottom: 25px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        h3 { color: #60a5fa; margin-top: 35px; font-size: 1.5em; }
+
+        .teacher-note { 
+            background: #1e293b; 
+            border-left: 6px solid var(--accent); 
+            padding: 25px; 
+            font-family: 'Outfit', sans-serif; 
+            color: #fef3c7; 
+            font-size: 1.1em; 
+            margin: 30px 0; 
+            border-radius: 4px 16px 16px 4px;
+            background: rgba(245, 158, 11, 0.05);
+        }
+
+        .concept-box {
+            background: rgba(59, 130, 246, 0.1);
+            border: 1px solid var(--primary);
+            padding: 20px;
+            border-radius: 12px;
+            margin: 20px 0;
+        }
+
+        .img-wrapper { 
+            width: 100%; 
+            margin: 40px 0; 
+            text-align: center;
+        }
+        .img-wrapper img { 
+            width: 100%; 
+            max-width: 800px;
+            border-radius: 16px; 
+            background: #fff; 
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.3);
+            border: 8px solid #1e293b;
+        }
+        .img-caption { color: var(--text-muted); font-size: 0.95em; margin-top: 15px; font-style: italic; }
+
+        .comparison-table { 
+            width: 100%; 
+            border-collapse: collapse; 
+            margin: 30px 0; 
+            background: #0f172a;
+            border-radius: 12px;
+            overflow: hidden;
+        }
+        .comparison-table th { background: #1e40af; padding: 18px; color: white; text-align: left; }
+        .comparison-table td { padding: 18px; border-bottom: 1px solid #334155; }
+        .comparison-table tr:last-child td { border-bottom: none; }
+
+        code { background: #0f172a; padding: 4px 8px; border-radius: 6px; color: var(--accent); font-family: 'JetBrains Mono', monospace; font-size: 0.9em; }
+        
+        .step-badge {
+            background: var(--primary);
+            color: white;
+            padding: 4px 12px;
+            border-radius: 6px;
+            font-size: 0.7em;
+            vertical-align: middle;
+            text-transform: uppercase;
+            margin-right: 10px;
+        }
+
+        .highlight { color: var(--primary); font-weight: 700; }
+        .danger { color: #ef4444; font-weight: 700; }
+
+        .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 30px; }
+        @media (max-width: 768px) { .grid-2 { grid-template-columns: 1fr; } }
     </style>
 </head>
 <body>
 <div class="container">
 
     <div class="header">
-        <h1>Salut Mehdi ! 👋</h1>
-        <p>Prêt pour le grand saut dans le <strong>Deep Learning</strong> ? On va décrypter ton TP3 sur la reconnaissance d'articles Zalando !</p>
+        <h1>TP3 : L'Intelligence du Catalogue 🧠</h1>
+        <p>Maîtriser le Deep Learning pour Zalando — De la théorie à la production</p>
     </div>
 
-    <div class="card">
-        <h2>1. Ton nouveau terrain de jeu : Fashion-MNIST 👕</h2>
-        <p>Fini les fleurs, on passe à la mode ! Tu travailles sur 70 000 images de vêtements (28x28 pixels).</p>
-        <div class="img-wrapper"><img src="outputs/catalogue_samples.png" alt="Catalogue Zalando"></div>
-        <div class="teacher-note">🧐 <strong>Le défi :</strong> Contrairement aux chiffres (MNIST classique), un pull et un t-shirt se ressemblent énormément pour une machine. Il faut des modèles capables de saisir des nuances de texture et de forme !</div>
+    <div class="section-nav">
+        <a href="#vision" class="nav-item">1. Vision du Problème</a>
+        <a href="#architectures" class="nav-item">2. Architectures</a>
+        <a href="#cnn" class="nav-item">3. Le Secret du CNN</a>
+        <a href="#diagnostic" class="nav-item">4. Diagnostic</a>
+        <a href="#production" class="nav-item">5. Décision Business</a>
     </div>
 
-    <div class="card">
-        <h2>2. La Guerre des Architectures ⚔️</h2>
-        <p>Tu as opposé trois approches pour voir laquelle est la plus intelligente :</p>
-        <div class="comparison-grid">
-            <div class="comp-card">
-                <h3>Random Forest</h3>
-                <p>Le "Vieux Sage"</p>
-                <div class="comp-value">~87%</div>
-                <p>Lent et limité sur l'image.</p>
+    <!-- SECTION 1 : LA VISION DU PROBLÈME -->
+    <div class="card" id="vision">
+        <h2><span class="step-badge">Phase 1</span> Pourquoi le Deep Learning ?</h2>
+        <p>Dans les TP précédents, nous utilisions du <strong>Machine Learning classique</strong> (Régression Logistique, Random Forest). Pourquoi changer ?</p>
+        
+        <div class="grid-2">
+            <div>
+                <h3>Le ML Classique (TP1 & TP2)</h3>
+                <p>Il traite les données comme une liste de caractéristiques indépendantes. Pour une image, il verrait 784 pixels sans savoir qui est à côté de qui. C'est comme essayer de reconnaître un visage en ayant une liste de couleurs de pixels mélangés dans un sac.</p>
             </div>
-            <div class="comp-card" style="border-color: #3b82f6;">
-                <h3>MLP (Dense)</h3>
-                <p>Le "Réseau Simple"</p>
-                <div class="comp-value" style="color: #3b82f6;">~88%</div>
-                <p>Un peu mieux, mais s'emmêle les pinceaux.</p>
-            </div>
-            <div class="comp-card" style="border-color: #22c55e;">
-                <h3>CNN</h3>
-                <p>Le "Champion"</p>
-                <div class="comp-value" style="color: #22c55e;">~91%</div>
-                <p>C'est lui le boss de la vision ! 🏆</p>
+            <div>
+                <h3>Le Deep Learning (TP3)</h3>
+                <p>Le Deep Learning, et particulièrement les <strong>Réseaux de Neurones Convolutifs (CNN)</strong>, sont capables de comprendre la <strong>géométrie</strong>. Ils détectent des formes, des lignes, des textures, et les assemblent pour comprendre l'objet global.</p>
             </div>
         </div>
-        <div class="teacher-note">🚀 <strong>Pourquoi le CNN gagne ?</strong> Parce qu'il regarde l'image par "blocs" (convolution) au lieu de regarder chaque pixel isolément. Il comprend la notion de "manche", de "col" ou de "semelle" !</div>
+
+        <div class="img-wrapper">
+            <img src="outputs/catalogue_samples.png" alt="Samples">
+            <div class="img-caption">Le dataset Fashion-MNIST : 70 000 images réelles du catalogue Zalando.</div>
+        </div>
+
+        <div class="teacher-note">
+            💡 <strong>Le défi Zalando :</strong> Les vendeurs font 12% d'erreurs. Certaines catégories comme "Pull" et "Chemise" sont extrêmement proches visuellement. Un algorithme classique s'y perdrait totalement.
+        </div>
     </div>
 
-    <div class="card">
-        <h2>3. Visualiser le cerveau de l'IA 🧠</h2>
-        <p>Regarde ce que ton CNN "voit" quand il regarde une basket (Sneaker) :</p>
-        <div class="img-wrapper"><img src="outputs/activations_conv.png" alt="Activations CNN"></div>
-        <div class="teacher-note">💡 <strong>Incroyable, non ?</strong> Chaque filtre se spécialise. Un filtre détecte les bords verticaux, un autre les textures, un autre les ombres. C'est comme ça qu'il arrive à une telle précision !</div>
+    <!-- SECTION 2 : LES ARCHITECTURES -->
+    <div class="card" id="architectures">
+        <h2><span class="step-badge">Phase 2</span> Le match des 3 modèles</h2>
+        <p>Nous avons mis en compétition trois approches pour voir laquelle est la plus robuste :</p>
+        
+        <table class="comparison-table">
+            <tr>
+                <th>Approche</th>
+                <th>Fonctionnement</th>
+                <th>Résultat (Accuracy)</th>
+            </tr>
+            <tr>
+                <td><strong>Random Forest</strong></td>
+                <td>100 arbres de décision qui analysent les pixels individuellement.</td>
+                <td>~ 87.5 %</td>
+            </tr>
+            <tr>
+                <td><strong>Réseau Dense (MLP)</strong></td>
+                <td>Plusieurs couches de neurones connectés les uns aux autres.</td>
+                <td>~ 88.5 %</td>
+            </tr>
+            <tr>
+                <td><strong>CNN</strong></td>
+                <td>Utilise des filtres spatiaux pour "scanner" l'image.</td>
+                <td><strong style="color: #60a5fa;">~ 91.0 % 🏆</strong></td>
+            </tr>
+        </table>
+
+        <h3>Pourquoi cette hiérarchie ?</h3>
+        <p>Le <strong>Random Forest</strong> est fort mais il n'a aucune notion de "voisinage". Le <strong>Réseau Dense</strong> commence à apprendre des combinaisons de pixels, mais il "aplatit" toujours l'image (couche <code>Flatten</code>), perdant ainsi la 2D. Seul le <strong>CNN</strong> garde l'image en 2D tout au long du processus.</p>
     </div>
 
-    <div class="card">
-        <h2>4. L'Analyse des Échecs (Qualité) ❌</h2>
-        <p>Même le champion fait des erreurs. Regarde où il s'est trompé :</p>
-        <div class="img-wrapper"><img src="outputs/erreurs_cnn.png" alt="Erreurs CNN"></div>
-        <div class="teacher-note">🕵️‍♂️ <strong>L'oeil de l'expert :</strong> La plupart des erreurs viennent de la confusion entre <code>Pull</code>, <code>Manteau</code> et <code>Chemise</code>. En noir et blanc (28x28), c'est parfois difficile même pour un humain de faire la différence ! Ton modèle est donc très proche de la limite humaine.</div>
+    <!-- SECTION 3 : LE SECRET DU CNN -->
+    <div class="card" id="cnn">
+        <h2><span class="step-badge">Phase 3</span> Comment le CNN "voit" ?</h2>
+        <p>Le CNN n'est pas une boîte noire. Il fonctionne par étapes logiques :</p>
+        
+        <div class="concept-box">
+            <strong>1. La Convolution (Conv2D) :</strong> Imagine une petite loupe de 3x3 pixels qui parcourt l'image. Elle cherche des motifs : un bord de manche, un col en V, une semelle.
+        </div>
+        
+        <div class="concept-box">
+            <strong>2. Le Pooling (MaxPooling) :</strong> Il résume l'information. Il divise la taille de l'image par 2 en ne gardant que le pixel le plus "fort". Cela permet au réseau d'être moins sensible si le vêtement est un peu décalé sur la photo.
+        </div>
+
+        <div class="grid-2">
+            <div class="img-wrapper">
+                <img src="outputs/filtres_conv.png" alt="Filtres">
+                <div class="img-caption">Les 32 filtres appris par la 1re couche. Chaque carré est un "oeil" qui cherche un motif précis.</div>
+            </div>
+            <div class="img-wrapper">
+                <img src="outputs/activations_conv.png" alt="Activations">
+                <div class="img-caption">Activations sur un Sneaker. On voit que certains filtres réagissent à la semelle, d'autres aux lacets.</div>
+            </div>
+        </div>
+
+        <div class="teacher-note">
+            🚀 <strong>L'interprétabilité :</strong> En regardant ces images, on peut prouver au comité éthique que l'IA ne décide pas par hasard. Elle regarde bien les caractéristiques du vêtement !
+        </div>
     </div>
 
-    <div class="card">
-        <h2>5. Diagnostic : Overfitting ? 📈</h2>
-        <div class="img-wrapper"><img src="outputs/learning_curves.png" alt="Courbes d'apprentissage"></div>
-        <div class="teacher-note">📉 <strong>La bonne nouvelle :</strong> Tes courbes de Train et de Validation restent proches. Ça veut dire que ton modèle <strong>GÉNÉRALISE</strong> bien. Il n'a pas juste appris le catalogue par cœur, il a vraiment compris ce qu'est un vêtement !</div>
+    <!-- SECTION 4 : LE DIAGNOSTIC -->
+    <div class="card" id="diagnostic">
+        <h2><span class="step-badge">Phase 4</span> Diagnostic : Est-ce fiable ?</h2>
+        <p>Pour savoir si un modèle est prêt pour la production, on regarde deux choses : les <strong>courbes d'apprentissage</strong> et les <strong>erreurs types</strong>.</p>
+        
+        <h3>L'Overfitting (Sur-apprentissage)</h3>
+        <div class="img-wrapper">
+            <img src="outputs/learning_curves.png" alt="Curves">
+        </div>
+        <p>Regarde l'écart entre le Train (bleu) et la Validation (rouge). Si le train monte à 98% mais la validation bloque à 88%, le modèle "apprend par coeur" les photos mais ne sait plus généraliser. Grâce au <strong>Dropout</strong> (on éteint 30% des neurones au hasard), notre CNN évite ce piège !</p>
+
+        <h3>La Matrice de Confusion</h3>
+        <div class="img-wrapper">
+            <img src="outputs/confusion_matrix_cnn.png" alt="Matrix">
+        </div>
+        <div class="teacher-note">
+            🔍 <strong>Analyse des confusions :</strong> Le modèle hésite surtout entre <code>Chemise</code> et <code>T-shirt</code>. Pourquoi ? À 28x28 pixels, un bouton de chemise est invisible. La silhouette est identique.
+        </div>
     </div>
 
-    <div style="text-align:center; padding: 30px; font-size: 1.2em; color: #94a3b8; border-top: 1px solid #334155; margin-top: 30px;">
-        Félicitations Mehdi ! Tu as dompté les réseaux de neurones. <br><strong style="color: #a855f7;">Le Deep Learning et les CNN n'ont plus de secret pour toi ! 🚀</strong>
+    <!-- SECTION 5 : DÉCISION BUSINESS -->
+    <div class="card" id="production">
+        <h2><span class="step-badge">Phase 5</span> Recommandation au Comité Zalando</h2>
+        <p>En tant que Data Scientist, tu dois trancher. Voici les 3 points clés à retenir :</p>
+        
+        <div class="concept-box" style="border-left: 8px solid #22c55e;">
+            <h4 style="margin-top:0;">1. Gain de performance massif</h4>
+            Le CNN réduit le taux d'erreur de 12.5% (baseline) à 9.0%. Sur les 45 millions d'articles de Zalando, cela représente <strong>1,5 million d'articles</strong> mieux classés chaque année.
+        </div>
+
+        <div class="concept-box" style="border-left: 8px solid #eab308;">
+            <h4 style="margin-top:0;">2. Objectif des 5% non atteint</h4>
+            Malgré sa supériorité, le CNN n'atteint pas encore l'objectif business (<5% d'erreur). La cause ? La résolution 28x28 est trop faible. Il nous manque la texture du tissu.
+        </div>
+
+        <div class="concept-box" style="border-left: 8px solid #3b82f6;">
+            <h4 style="margin-top:0;">3. Solution : Human-in-the-loop</h4>
+            Nous préconisons de déployer le CNN avec un <strong>seuil de confiance</strong>. Si le modèle est sûr à moins de 85%, l'article est envoyé à une validation humaine. Cela garantit la qualité tout en automatisant 80% du travail.
+        </div>
+    </div>
+
+    <div style="text-align:center; padding: 40px; color: var(--text-muted);">
+        <p>Mehdi, tu as maintenant une vision complète. Le Deep Learning n'est plus une magie noire, mais un outil puissant d'analyse spatiale ! 🚀</p>
     </div>
 
 </div>
