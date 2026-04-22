@@ -36,6 +36,7 @@ Le projet couvre :
 ├── 📁 EXPLICATION
 │   └── Explication_Code_TP2.md     # Guide ligne par ligne du code
 ├── 📄 Livrable_Final_TP2.html      # Rapport HTML complet
+├── 📄 Cours_Interactif_Mehdi_TP2.html # Cours explicatif interactif
 └── 📄 requirements.txt             # Dépendances Python
 ```
 
